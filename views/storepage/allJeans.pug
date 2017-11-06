@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        include default/head.pug
+        title Document
+    body
+        span#main
+        - let productsjeans = new Array();
+            // start of navigation bar
+            include default/nav.pug
+            #content.container
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .row
+                            .col-md-4.col-md-offset-1
+                                .textProduct-Heading
+                                    b T-SHIRTS
+                        .container
+                            .row
+                                - var j = 0;
+                                - for(var i = 0; i < length-1; i++)
+                                    - j++;
+                                    if data[i].id_barang !== data[i+1].id_barang
+                                        - productsjeans.push(data[i])
+                                if data[length - 1].id_barang !== data[length - 2].id_barang
+                                    - productsjeans.push(data[length - 1])
+                                each products in productsjeans
+                                    a(href='/product/search/' + products.id_barang)
+                                        .col-md-2.col-sm-2.col-xs-5.product-wrapper
+                                            .row
+                                                if products.gambar
+                                                    img.img-responsive.center-block(src='/images/' + products.gambar, alt='', width='300px')
+                                                else
+                                                    img.img-responsive.center-block(src='/images/image-not-found.gif', alt='', width='300px')
+                                            .row.center-block.product-desc
+                                                b= products.namabarang
+                                            .row.center-block= products.harga
+            include default/footer.pug
+        include default/side.pug
+        script.
+    script(src='/javascripts/script.js')

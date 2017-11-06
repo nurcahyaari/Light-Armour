@@ -1,0 +1,24 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Document
+    body
+        include nav.pug
+        h1 Register
+        form(action="/register", method="post")
+            input(type="text", name="nama", placeholder="Masukan nama")
+            input(type="text", name="username", placeholder="Masukan username")
+            input(type="text", name="password", placeholder="Masukan Password")
+            textarea(name="alamat", cols="30", rows="10", placeholder="Masukan alamat")
+            input(type="text", name="email", placeholder="Masukan email")
+            p Laki-Laki
+            input(type="radio", name="gender", value="Laki-Laki")
+            p Wanita
+            input(type="radio", name="gender", value="Wanita")
+            input(type="text", name="bday", placeholder="formatnya 1998-01-16")
+            input(type="submit", value="Kirim")
+            input(type="reset", value="Reset")
+            

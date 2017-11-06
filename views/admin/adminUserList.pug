@@ -1,0 +1,23 @@
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Document
+    body
+        include nav.pug
+        br
+        br
+        br
+        if getData == true
+            each users in row
+                div= users.nama
+                div= users.alamat
+                div= users.email
+                div= users.username
+                div= users.Kelamin
+                br
+
+        else
+            div= message_box
+        

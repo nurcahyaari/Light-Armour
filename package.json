@@ -1,0 +1,27 @@
+{
+  "name": "tokoonlinealpha",
+  "version": "0.1.3",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.17.1",
+    "chance": "^1.0.12",
+    "cookie-parser": "~1.4.3",
+    "crypto": "^1.0.1",
+    "debug": "~2.6.3",
+    "email-templates": "^3.1.5",
+    "express": "~4.15.2",
+    "express-flash": "0.0.2",
+    "express-session": "^1.15.5",
+    "formidable": "^1.1.1",
+    "morgan": "~1.8.1",
+    "multer": "^1.3.0",
+    "mysql": "^2.14.1",
+    "nodemailer": "^4.3.0",
+    "path": "^0.12.7",
+    "pug": "^2.0.0-rc.4",
+    "serve-favicon": "~2.4.2"
+  }
+}

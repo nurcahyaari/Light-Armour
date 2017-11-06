@@ -1,0 +1,27 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Document
+    body
+        include nav.pug
+        h1= idbarang
+        form(action="/admin/editdata/" + row[0].id_barang, method="post")
+            input(type="text", value=row[0].namabarang, name="namabarang", placeholder="Masukan nama barang")
+            input(type="text", value=row[0].harga, name="hargabarang", placeholder="Masukan harga barang")
+            input(type="text", value=row[0].stok, name="stokbarang", placeholder="Masukan stok barang")
+            p Celana
+            if row[0].jenis == "Celana"
+                input(type="radio", name="jenis", value="Celana", checked)
+            else
+                input(type="radio", name="jenis", value="Celana")
+            p Baju
+            if row[0].jenis == "Baju"
+                input(type="radio", name="jenis", value="Baju", checked)
+            else
+                input(type="radio", name="jenis", value="Baju")
+            div
+            input(type="submit", value="Tambah Data")
+

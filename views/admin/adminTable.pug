@@ -1,0 +1,32 @@
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Document
+    body
+        include nav.pug
+        br
+        br
+        br
+        if getData == true
+            p Celana
+            each barang in row
+                if barang.jenis == "Celana"
+                    div= barang.namabarang
+                    div= barang.harga
+                    div= barang.stok
+                    a(href="/admin/editdata/" + barang.id_barang) Edit
+                    br
+                    br
+            p Baju
+            each barang in row
+                if barang.jenis == "Baju"
+                    div= barang.namabarang
+                    div= barang.harga
+                    div= barang.stok
+                    a(href="/admin/editdata/" + barang.id_barang) Edit
+                    br
+        else
+            div= message_box
+        

@@ -1,0 +1,35 @@
+span#side
+      br
+      br
+      br
+      ul
+        center
+          li
+            a(href='/')
+              span#text-side HOME
+          a#btndrop-side(href='#!')
+            li
+                span#text-side
+                    | PRODUCT
+                    span.fa.fa-angle-down
+            ul#side-dropbtn
+                li
+                    a(href='tsirt.html')
+                        span#drpbtn-side-text T-SHIRT
+                li
+                    a(href='jacket.html')
+                        span#drpbtn-side-text JACKET
+                li
+                    a(href='')
+                        span#drpbtn-side-text JEANS
+            li
+                a(href='#!')
+                    span#text-side ABOUT
+            li
+                if userLogin == true
+                    a(href='/account/' + login_username)
+                        span#text-side= login_nama
+                else
+                    a(href='/login')
+                        span#text-side LOGIN
+                

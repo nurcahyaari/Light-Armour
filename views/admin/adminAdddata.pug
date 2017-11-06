@@ -1,0 +1,19 @@
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Document
+    body
+        include nav.pug
+        h1 Tambah Data barang
+        form(action="/admin/adddata", method="post")
+            input(type="text", name="namabarang", placeholder="Masukan nama barang")
+            input(type="text", name="hargabarang", placeholder="Masukan harga barang")
+            input(type="text", name="stokbarang", placeholder="Masukan stok barang")
+            p Celana
+            input(type="radio", name="jenis", value="Celana")
+            p Baju
+            input(type="radio", name="jenis", value="Baju")
+            div
+            input(type="submit", value="Tambah Data")
