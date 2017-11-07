@@ -52,12 +52,25 @@ let Cart = {
         console.log("Data where user have a data in database so i merged it : " + insertToDB + "\n");
         return insertToDB;
     },
-    pushToSession : (req, data, arrayTransaksiInCart) => {
+    pushToSession : (req, data) => {
+        let arrayTransaksiInCart = new Array();
         for(var i = 0; i < data.length; i++){
             arrayTransaksiInCart.push({id: data[i].id_barang, jumlah: data[i].jumlah});
         }
         req.session.TransaksiSession = arrayTransaksiInCart;
         
+    },
+    stringQuery : (req) => {
+        insertToDB = "INSERT INTO la_userCart (username, id_barang, jumlah) VALUES ";
+        for(var i = 0; i < req.session.TransaksiSession.length; i++){
+            if((i+1) != req.session.TransaksiSession.length){
+                insertToDB += "('" + req.session.userLogin.username + "','" + req.session.TransaksiSession[i].id + "'," + req.session.TransaksiSession[i].jumlah + "), "
+            }
+            else{
+                insertToDB += "('" + req.session.userLogin.username + "','" + req.session.TransaksiSession[i].id + "'," + req.session.TransaksiSession[i].jumlah + ")"
+            }
+        }
+        return insertToDB;
     }
 }
 

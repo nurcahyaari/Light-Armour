@@ -10,7 +10,8 @@ let loginCheck = require('./checkLogin');
 //Control Data
 let Cart = require('../Controller/Cart');
 
-let arrayTransaksiInCart = new Array();
+
+var insertToDB = String;
 router.get('/login', function(req, res, next){
     if(!req.session.userLogin){
         res.render('storepage/userLogin');
@@ -21,7 +22,6 @@ router.get('/login', function(req, res, next){
 });
 
 router.post('/login',function(req, res, next){
-    var insertToDB = String;
     var isMinus = true;
     var password = crypto.createHmac('sha256', secret).update(req.body.password).digest('hex');
     connect.query('SELECT * FROM `la_user` WHERE `username`= "' + req.body.username + '" AND `password` = "' + password + '"', function(err, row){
@@ -37,8 +37,7 @@ router.post('/login',function(req, res, next){
                 connect.query(`SELECT * FROM la_userCart WHERE username = "${req.session.userLogin.username}" ORDER BY id_barang`, (err, data) => {
                     if(data.length != 0){
                         console.log(data.length);
-                        Cart.pushToSession(req, data, arrayTransaksiInCart);
-                        arrayTransaksiInCart = [];
+                        Cart.pushToSession(req, data);
                     }
                     res.redirect('/');
                 })
@@ -53,12 +52,7 @@ router.post('/login',function(req, res, next){
                                     insertToDB = "";
                                     connect.query(`SELECT * FROM la_userCart WHERE username = "${req.session.userLogin.username}" ORDER BY id_barang`, (err, data) => {
                                         if(data.length != 0){
-                                            console.log("Session Transaksi sebelum : " + req.session.TransaksiSession);
-                                            req.session.TransaksiSession.length = 0;
-                                            console.log("Session Transaksi Sesudah : " + req.session.TransaksiSession);
-                                            console.log(data.length);
-                                            arrayTransaksiInCart = [];
-                                            Cart.pushToSession(req, data, arrayTransaksiInCart);
+                                            Cart.pushToSession(req, data);
                                         }
                                         res.redirect('/');
                                     })
@@ -66,28 +60,18 @@ router.post('/login',function(req, res, next){
                             });
                         })
                     }
-                    else{ // if user not have data from database
-                        insertToDB = "INSERT INTO la_userCart (username, id_barang, jumlah) VALUES "
-                        for(var i = 0; i < req.session.TransaksiSession.length; i++){
-                            if((i+1) != req.session.TransaksiSession.length){
-                                insertToDB += "('" + row[0].username + "','" + req.session.TransaksiSession[i].id + "'," + req.session.TransaksiSession[i].jumlah + "), "
-                            }
-                            else{
-                                insertToDB += "('" + row[0].username + "','" + req.session.TransaksiSession[i].id + "'," + req.session.TransaksiSession[i].jumlah + ")"
-                            }
-                        }
-                        console.log(insertToDB);
+                    else{ // if user not have data from database but user added some items to their cart
+                        insertToDB = Cart.stringQuery(req);
+                        console.log("Insert awal : " + insertToDB);
                         connect.query(insertToDB, (err, data) => {
                             if(data){
-                                console.log(arrayTransaksiInCart);
                                 req.session.userLogin = {username:row[0].username, nama: row[0].nama}
                                 console.log(req.session.userLogin);
                                 req.session.TransaksiSession = [];
                                 connect.query(`SELECT * FROM la_userCart WHERE username = "${req.session.userLogin.username}" ORDER BY id_barang`, (err, data) => {
                                     if(data.length !== 0){
                                         console.log(data);
-                                        Cart.pushToSession(req, data, arrayTransaksiInCart);
-                                        arrayTransaksiInCart = [];
+                                        Cart.pushToSession(req, data);
                                         insertToDB = ""; 
                                         res.redirect('/');
                                     }
@@ -111,15 +95,8 @@ router.get('/logout/:username', function(req, res, next){
         if(req.session.TransaksiSession){
             connect.query(`DELETE FROM la_userCart WHERE username = "${req.session.userLogin.username}"`, (err, data) => {
                 //adding to database if user login
-                insertToDB = "INSERT INTO la_userCart (username, id_barang, jumlah) VALUES "
-                for(var i = 0; i < req.session.TransaksiSession.length; i++){
-                    if((i+1) != req.session.TransaksiSession.length){
-                        insertToDB += "('" + req.session.userLogin.username + "','" + req.session.TransaksiSession[i].id + "'," + req.session.TransaksiSession[i].jumlah + "), "
-                    }
-                    else{
-                        insertToDB += "('" + req.session.userLogin.username + "','" + req.session.TransaksiSession[i].id + "'," + req.session.TransaksiSession[i].jumlah + ")"
-                    }
-                }
+                
+                insertToDB = Cart.stringQuery(req);
                 console.log("Insert in Logout " +insertToDB);
                 connect.query(insertToDB);
                 req.session.destroy();
