@@ -30,9 +30,9 @@ html
                                 .col-lg-12
                                 form#login-form(action='/login', method='post', role='form', style='display: block;')
                                     .form-group
-                                    input#username.form-control(type='text', name='username', tabindex='1', placeholder='Username', value='')
+                                    input#username.form-control(type='text', name='username', tabindex='1', placeholder='Username', value='', required)
                                     .form-group
-                                    input#password.form-control(type='password', name='password', tabindex='2', placeholder='Password')
+                                    input#password.form-control(type='password', name='password', tabindex='2', placeholder='Password', required)
                                     .form-group.text-center
                                     input#remember(type='checkbox', tabindex='3', name='remember')
                                     label(for='remember')  Remember Me
@@ -44,18 +44,18 @@ html
                                     .row
                                         .col-lg-12
                                         .text-center
-                                            a.forgot-password(href='https://phpoll.com/recover', tabindex='5') Forgot Password?
-                                form#register-form(action='/register', method='post', role='form', style='display: none;')
+                                            a.forgot-password(href='#', tabindex='5') Forgot Password?
+                                form#register-form(action='/register', method='post', role='form', style='display: none;', onsubmit="return validateRegist()")
                                     .form-group
-                                    input#username.form-control(type='text', name='nama', tabindex='1', placeholder='Nama', value='')
+                                    input#username.form-control(type='text', name='nama', tabindex='1', placeholder='Nama', value='', required)
                                     .form-group
-                                    input#username.form-control(type='text', name='username', tabindex='1', placeholder='Username', value='')
+                                    input#username.form-control(type='text', name='username', tabindex='1', placeholder='Username', value='', required)
                                     .form-group
-                                    input#email.form-control(type='email', name='email', tabindex='1', placeholder='Email Address', value='')
+                                    input#email.form-control(type='email', name='email', tabindex='1', placeholder='Email Address', value='', required, pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")
                                     .form-group
-                                    input#password.form-control(type='password', name='password', tabindex='2', placeholder='Password')
+                                    input#password.form-control(type='password', name='password', tabindex='2', placeholder='Password', required)
                                     .form-group
-                                    input#confirm-password.form-control(type='password', name='confirm-password', tabindex='2', placeholder='Confirm Password')
+                                    input#confirm-password.form-control(type='password', name='confirm-password', tabindex='2', placeholder='Confirm Password', required)
                                     .form-group
                                     .row
                                         .col-sm-6.col-sm-offset-3
@@ -66,6 +66,17 @@ html
         include default/footer.pug
     include default/side.pug
     script(src="javascripts/script.js")
+    script.
+        function validateRegist(){
+            var email = document.getElementById('email').value;
+            var sliceMail = email.slice(-4);
+            if(sliceMail !== ".com"){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
 
 
 
