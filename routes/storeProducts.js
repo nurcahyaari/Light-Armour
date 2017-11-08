@@ -13,6 +13,10 @@ let HowMuchFunctionCount = 0;
 router.get('/product/search', (req, res, next) => {
     res.redirect('/');
 })
+
+//request ajax to get products stoct
+
+
   //router for see all product
 router.get('/product/search/:idbarang', (req, res, next) => {
     let id = req.params.idbarang;
@@ -22,7 +26,7 @@ router.get('/product/search/:idbarang', (req, res, next) => {
             res.redirect('/');
         }
         else{
-            connect.query(`SELECT la_items.id_barang, la_items.namabarang, la_items.harga, la_items.stok, la_items.desc , la_items.jenis, la_imagesOfItems.gambar FROM la_items LEFT JOIN la_imagesOfItems ON la_items.id_barang = la_imagesOfItems.id_barang WHERE la_items.id_barang = '${id}' ORDER BY la_items.id_barang`, (err, data) => {
+            connect.query(`SELECT la_items.id_barang, la_items.namabarang, la_items.harga,  la_items.desc , la_items.jenis, la_imagesOfItems.gambar FROM la_items LEFT JOIN la_imagesOfItems ON la_items.id_barang = la_imagesOfItems.id_barang WHERE la_items.id_barang = '${id}' ORDER BY la_items.id_barang`, (err, data) => {
                 if(err){
                     res.send('Data tidak ditemukan');
                 }
@@ -85,6 +89,7 @@ router.post('/product/search/:idbarang', function(req, res, next){
     jumlah = parseInt(req.body.jumlah);
     let isNeedtoAddtoSessionTransaksi = 0;
     console.log("Resnpon Post : " + JSON.stringify(req.body)) 
+    console.log("Sizenya : " + req.body.size);
     cart(req);
     connect.query(`SELECT * FROM la_items WHERE id_barang = "${id}"`, (err, result) => {
         if(!req.session.TransaksiSession){
@@ -111,5 +116,14 @@ router.post('/product/search/:idbarang', function(req, res, next){
         res.redirect('/product/search/' + req.params.idbarang);
     });
 });
+
+router.get('/product/:idbarang/:size', (req, res, next) => {
+    connect.query(`SELECT la_items.id_barang, la_sizeOfItems.stock 
+                   FROM la_items, la_sizeOfItems WHERE la_items.id_barang = la_sizeOfItems.id_barang
+                   AND la_items.id_barang = "${req.params.idbarang}"
+                   AND la_sizeOfItems.size = "${req.params.size}"`, (err, data) => {
+                    res.json(data);
+    })
+})
 
 module.exports = router;

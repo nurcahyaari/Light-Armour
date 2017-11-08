@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
   CheckJumlah(req);
   console.log("Index, transaksi session " + JSON.stringify(req.session.TransaksiSession));
   console.log("Index, panjang transaksi " + req.session.CountOfTransaction);
-    connect.query('SELECT la_items.id_barang, la_items.namabarang, la_items.harga, la_items.stok, la_items.jenis, la_imagesOfItems.gambar FROM `la_items` LEFT JOIN la_imagesOfItems ON la_items.id_barang = la_imagesOfItems.id_barang GROUP by la_items.id_barang', function(err, row, field){
+    connect.query('SELECT la_items.id_barang, la_items.namabarang, la_items.harga,   la_items.jenis, la_imagesOfItems.gambar FROM `la_items` LEFT JOIN la_imagesOfItems ON la_items.id_barang = la_imagesOfItems.id_barang GROUP by la_items.id_barang', function(err, row, field){
       if(err){
         res.send('Gagal mengambil data');
       }

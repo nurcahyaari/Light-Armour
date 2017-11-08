@@ -16,12 +16,14 @@ router.get('/register', function(req, res, next){
   router.post('/register', function(req, res, next){
     var date = new Date();
     var password = crypto.createHmac('sha256', secret).update(req.body.password).digest('hex');
-    connect.query('INSERT INTO `la_user`(`nama`, `password`,  `tgl_daftar`, `email`, `username`) VALUES ("' + req.body.nama + '", "' + password + '",  ' + Date.now() + ' , "' + req.body.email + '", "' + req.body.username + '")', function(err, data){
+    console.log(date);
+    connect.query('INSERT INTO `la_user`(`nama`, `password`,  `tgl_daftar`, `email`, `username`) VALUES ("' + req.body.nama + '", "' + password + '",  "' + date.toLocaleString() + '" , "' + req.body.email + '", "' + req.body.username + '")', function(err, data){
       if(err){
         res.send('Gagal menyimpan data');
       }
       else{
-        res.redirect('/');
+        req.flash('info', 'Akun anda sudah berhasil didaftarkan silahkan login');
+        res.redirect('/login')
       }
     })
   });
