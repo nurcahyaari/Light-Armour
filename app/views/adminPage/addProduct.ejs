@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AdminLTE 2 | Data Tables</title>
+  <% include homepage/header %>
+</head>
+<body class="hold-transition skin-blue sidebar-mini loading">
+<div class="wrapper">
+
+  <% include homepage/headPanel %>
+  <% include homepage/sidePanel %>
+  <div class="modal"></div>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Data Tables
+        <small>advanced tables</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Tables</a></li>
+        <li class="active">Data tables</li>
+      </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">{{ productName }}</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="form-horizontal">
+                        <div class="col-xs-6 col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">id barang</label>
+                                <div class="col-sm-8">
+                                <input type="text" class="form-control" id="id_barang" value = "">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-4 control-label">Nama barang</label>
+                                <div class="col-sm-8">
+                                <input type="text" class="form-control" id="namabarang" value = "">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-4 control-label">harga barang</label>
+                                <div class="col-sm-8">
+                                <input type="number" class="form-control" id="harga" value = "">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-4 control-label">Deskripsi</label>
+                                <div class="col-sm-8">
+                                <textarea name="desc" class="for-control col-xs-12 col-md-12 col-sm-12" id="desc" style="resize: none; height: 100px;"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="tpBarang" class="col-sm-4 control-label">Tipe Barang</label>
+                                <div class="col-sm-8">
+                                <select name="" id="tpBarang" class="col-sm-12 col-md-12 col-xs-12">
+                                    <option value="">Pilih Tipe Barang</option>
+                                    <option value="baju">Baju</option>
+                                    <option value="jacket">Jacket</option>
+                                    <option value="jeans">Jeans</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-4 control-label">Size</label>
+                                <div class="col-sm-8">
+                                <select name="" id="size" class="col-sm-12 col-md-12 col-xs-12">
+                                    <option value="">Pilih Ukuran</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="form-group" id="stockValue" style="display : none;">
+                                <label for="sizestock" class="col-sm-4 control-label">Stok</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="sizestock">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-xs-6">
+                           
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-xs-12">
+                                <div class="col-sm-4 col-md-4"></div>
+                                <div class="col-sm-4">
+                                    <button type="submit" id="cancel" class="btn btn-default">Cancel</button>
+                                    <button type="submit" id="submit" class="btn btn-info pull-right">
+                                        <span id="loadingState"><i class="fa fa-refresh fa-spin"></i></span>    Submit
+                                    </button>
+                                </div>
+                                <div class="col-sm-4 col-md-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 2.4.0
+    </div>
+    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+    reserved.
+  </footer>
+</div>
+<!-- ./wrapper -->
+<% include homepage/footer %>
+<!-- page script -->
+<script src="/js/sweetalert.js"></script>
+<!-- <script src="/js/script.js"></script> -->
+<script>
+   let productData = {
+        id_barang : "",
+        namabarang: "",
+        jenis : "",
+        harga: 0,
+        desc: "",
+        size : []
+    }
+    
+    $("#id_barang").on("click", function(){
+        if($("#id_barang").val() == "maaf id ini sudah digunakan pilih id lain"){
+            $("#id_barang").val("");
+        }
+    })
+    $("#tpBarang").on("change", function(){
+        console.log($("#tpBarang").val());
+        
+        if($("#tpBarang").val() === "baju"){
+            $("#id_barang").val("B" + productData.id_barang);
+            $.getJSON("/product?type=getId&id=" + $("#id_barang").val() + "&use=searchId", function(data, status){
+                console.log(data);
+                if(data.HaveThisId){
+                    $("#id_barang").val("maaf id ini sudah digunakan pilih id lain");
+                } else {
+                    $("#id_barang").val("B" + productData.id_barang);
+                    productData.id_barang = $("#id_barang").val();
+                    productData.jenis = $("#tpBarang").val();
+                }
+            })
+        } else if($("#tpBarang").val() === "jacket"){
+            $("#id_barang").val("J" + productData.id_barang);
+            $.getJSON("/product?type=getId&id=" + $("#id_barang").val() + "&use=searchId", function(data, status){
+                console.log(data);
+                if(data.HaveThisId){
+                    $("#id_barang").val("maaf id ini sudah digunakan pilih id lain");
+                } else {
+                    $("#id_barang").val("J" + productData.id_barang);
+                    productData.id_barang = $("#id_barang").val();
+                    productData.jenis = $("#tpBarang").val();
+                }
+            })
+        } else if($("#tpBarang").val() === "jeans") {
+            $("#id_barang").val("C" + productData.id_barang);
+            $.getJSON("/product?type=getId&id=" + $("#id_barang").val() + "&use=searchId", function(data, status){
+                console.log(data);
+                if(data.HaveThisId){
+                    $("#id_barang").val("maaf id ini sudah digunakan pilih id lain");
+                } else {
+                    $("#id_barang").val("C" + productData.id_barang);
+                    productData.id_barang = $("#id_barang").val();
+                    productData.jenis = $("#tpBarang").val();
+                }
+            })
+        }
+    })
+
+    $("#id_barang").on("keyup change", function(){
+        productData.id_barang = $("#id_barang").val();
+        console.log(productData)
+    })
+
+    $("#namabarang").on("keyup change", function(){
+        productData.namabarang = $("#namabarang").val();
+        console.log(productData)
+    })
+
+    $("#harga").on("keyup click change", function(){
+        productData.harga = $("#harga").val();
+        console.log(productData)
+    })
+
+    $("#desc").on("keyup click change", function(){
+        productData.desc = $("#desc").val();
+        console.log(productData)
+    })
+
+    $("#size").on("change", function(){
+        $("#stockValue").css('display', 'block');
+        if(productData.size.length === 0){
+            $("#sizestock").val("0");
+        } else {
+            for(let i = 0; i < productData.size.length; i++){
+                if(productData.size[i].size === $("#size").val()){
+                    $("#sizestock").val(productData.size[i].val);
+                    break;
+                } else {
+                    $("#sizestock").val("0");
+                }
+            }
+        }
+    })
+
+    $("#stockValue").on("keyup click", function(){
+        let isNeedToPush = true;
+        if(productData.size.length === 0){
+            productData.size.push({
+                size : $("#size").val(), 
+                val : $("#sizestock").val()
+            })
+        } else {
+            console.log(productData.size.length)
+            for(let i = 0; i < productData.size.length; i++){
+                if(productData.size[i].size === $("#size").val()){
+                    productData.size[i].val = $("#sizestock").val();
+                    isNeedToPush = false;
+                    break;
+                }
+            }
+            if(isNeedToPush === true){
+                productData.size.push({
+                    size : $("#size").val(), 
+                    val : $("#sizestock").val()
+                })
+            }
+        }
+    })
+
+    $("#submit").on("submit click", function(){
+        console.log(productData);
+        $.ajax({
+            type: 'POST',
+            url: "/product/edit?type=addProduct",
+            data: JSON.stringify(productData),
+            success: function(data){
+                swal("Good job!", "Data berhasil Ditambahkan", "success");
+            },
+            error: function(e) {
+                swal("Sorry", "Maaf terjadi kesalahan dalam menyimpan data", "error");
+            },
+            dataType: "json",
+            contentType: "application/json"
+        });
+    })
+</script>
+</body>
+</html>

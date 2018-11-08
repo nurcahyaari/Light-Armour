@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        include default/head.pug
+        title Document
+    body
+        span#main
+            include default/nav.pug
+            // login
+            br
+            br
+            .container-fluid
+                .row
+                    h2 Receipt
+                br
+                .row    
+                    .col-md-12
+                        .invoice-box
+                            table(cellpadding='0', cellspacing='0')
+                                tbody
+                                    tr.top
+                                        td(colspan='2')
+                                            table
+                                                tbody
+                                                    tr
+                                                        td.title
+                                                            //- img(src='https://www.sparksuite.com/images/logo.png', style='width:100%; max-width:300px;')
+                                                        td
+                                                            | Invoice #: 123
+                                                            br
+                                                            |                                 Created: January 1, 2015
+                                                            br
+                                                            |                                 Due: February 1, 2015
+                                    tr.information
+                                        td(colspan='2')
+                                            table
+                                                tbody
+                                                    tr
+                                                        td
+                                                            | Sparksuite, Inc.
+                                                            br
+                                                            |                                 12345 Sunny Road
+                                                            br
+                                                            |                                 Sunnyville, CA 12345
+                                                        td
+                                                            | Acme Corp.
+                                                            br
+                                                            |                                 John Doe
+                                                            br
+                                                            |                                 john@example.com
+                                    
+                                    tr.heading
+                                        td
+                                            | Item
+                                        td
+                                            | Price
+                                    tr.item
+                                        td
+                                            | Website design
+                                        td
+                                            | $300.00
+                                    tr.item
+                                        td
+                                            | Hosting (3 months)
+                                        td
+                                            | $75.00
+                                    tr.item.last
+                                        td
+                                            | Domain name (1 year)
+                                        td
+                                            | $10.00
+                                    tr.total
+                                        td
+                                        td
+                                            | Total: $385.00
+                    
+                               
+            include default/footer.pug
+        include default/side.pug
+    script(src="js/script.js")
+

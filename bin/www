@@ -1,49 +1,57 @@
 #!/usr/bin/env node
 
+'use strict'
 /**
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('tokoonlinealpha:server');
-var http = require('http');
+const Admin = require('../adminApp');
+const Store = require('../storeApp');
+const debug = require('debug')('niera:server');
+const http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+const StorePort = normalizePort(process.env.PORT || '3000');
+const AdminPort = normalizePort(process.env.PORT || '4000');
+Admin.set('port', AdminPort);
 
+Store.set('port', StorePort);
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
-
+const StoreServer = http.createServer(Store);
+const AdminServer = http.createServer(Admin);
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+StoreServer.listen(StorePort);
+StoreServer.on('error', onError);
+StoreServer.on('listening', onListening);
+
+AdminServer.listen(AdminPort);
+AdminServer.on('error', onError);
+AdminServer.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  let StorePort = parseInt(val, 10);
 
-  if (isNaN(port)) {
+  if (isNaN(StorePort)) {
     // named pipe
     return val;
   }
 
-  if (port >= 0) {
+  if (StorePort >= 0) {
     // port number
-    return port;
+    return StorePort;
   }
 
   return false;
@@ -58,9 +66,9 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  let bind = typeof StorePort === 'string'
+    ? 'Pipe ' + StorePort
+    : 'Port ' + StorePort;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -82,8 +90,8 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
+  let addr = StoreServer.address();
+  let bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);

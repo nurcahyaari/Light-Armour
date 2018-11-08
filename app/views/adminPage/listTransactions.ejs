@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AdminLTE 2 | Data Tables</title>
+  <% include homepage/header %>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <% include homepage/headPanel %>
+  <% include homepage/sidePanel %>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Data Tables
+        <small>advanced tables</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Tables</a></li>
+        <li class="active">Data tables</li>
+      </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <h3 class="box-title">{{ nama tipe barang }}</h3>
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
+                <button type="button" class="btn btn-success" onclick="toAddProduct()">
+                  <img src="/img/plus-solid.svg" alt="" height="20px">
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>No</th>
+                  <td>Id Pembeli</td>
+                  <th>id Transaction</th>
+                  <th>Total Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <% for(let i = 0; i < data.data.length; i++) { %>
+                    <tr>
+                      <td><%= i + 1%></td>
+                      <td><%= data.data[i].id_pembeli %></td>
+                      <td><a href="/product?type=edit&id=<%=data.data[i].id_transaksi%>"><%= data.data[i].id_transaksi%></a></td>
+                      <td><%= data.data[i].totalHarga %></td>
+                      <td><%= %></td>
+                    </tr>
+                  <%}%>
+                </tbody>
+              </table>
+              
+            </div>
+            <center>
+            <div aria-label="Page navigation example">
+              <ul class="pagination">
+                <% if(data.no === 0){ %>
+                  <li class="page-item disabled"><a class="page-link">Previous</a></li>
+                <% } else {%>
+                  <li class="page-item"><a class="page-link" href="/transactions/<%= params %>?no=<%= data.no - 1%>">Next</a></li>
+                <% } %>
+                <li class="page-item"><a class="page-link" href="#"><%= data.no %></a></li>
+                <% if(data.length >= 10 ) {%>
+                  <li class="page-item"><a class="page-link" href="/transactions/<%= params %>?no=<%= data.no + 1%>">Next</a></li>
+                <%} else { %>
+                  <li class="page-item disabled"><a class="page-link" >Next</a></li>
+                <%}%>
+              </ul>
+            </div>
+          </center>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 2.4.0
+    </div>
+    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+    reserved.
+  </footer>
+</div>
+<!-- ./wrapper -->
+<% include homepage/footer %>
+<!-- page script -->
+<script>
+  function toAddProduct(){
+    window.open("/product?type=addProduct","_self")
+  }
+  // var table;
+  //   $(document).ready(function() {
+ 
+  //       //datatables
+  //       table = $('#table').DataTable({ 
+ 
+  //           "processing": true, 
+  //           "serverSide": true, 
+  //           "order": [], 
+             
+  //           "ajax": {
+  //               "url": "localhost:4000/api/ts",
+  //               "type": "GET"
+  //           },
+ 
+             
+  //           "columnDefs": [
+  //           { 
+  //               "targets": [ 0 ], 
+  //               "orderable": false, 
+  //           },
+  //           ],
+ 
+  //       });
+ 
+  //   });
+</script>
+</body>
+</html>

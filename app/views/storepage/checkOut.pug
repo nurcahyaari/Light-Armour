@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        include default/head.pug
+        title Document
+    body
+        span#main
+            include default/nav.pug
+            // login
+            br
+            br
+            .container-fluid
+                .row
+                    h2 checkout
+                    if !userLogin
+                        form(action="/checkout", method="POST", role='form', style='display: block;')
+                            .form-group
+                                input#username.form-control(type='text', name='nama', tabindex='1', placeholder='Nama', value='')
+                                .form-group
+                                input#email.form-control(type='email', name='email', tabindex='1', placeholder='Email Address', value='')
+                                .form-group
+                                .row
+                                    .col-sm-6.col-sm-offset-3
+                                        input#register-submit.form-control.btn.btn-register(type='submit', name='register-submit', tabindex='4', value='Bayar Sekarang')
+                    else
+                        br
+                        br
+                        //- .col-xs-2
+                        .col-md-6
+                            h4
+                                i.fas.fa-map-marker-alt  Alamat
+                            .card
+                                .col-md-7
+                                    h5 #{userData[0].Nama_Penerima} (#{userData[0].Kode_pos})
+                                    h5 #{userData[0].no_telp}
+                                    h5 #{userData[0].Alamat_lengkap}
+                                .col-md-5
+                                    button.btn.col-md-12.col-sm-12.col-xs-12.checkOutButtom(type='button', data-toggle='modal', data-target='#exampleModalLong')
+                                        | Ubah Alamat
+                        .col-md-1
+                        .col-md-4
+                            h4
+                                i.fas.fa-shopping-basket  Ringkasan Belanja
+                            .card
+                                .col-md-12
+                                    .row
+                                        .col-md-6(style="text-align : left;")
+                                            h5 
+                                                | Total Harga (#{Items.length}) Barang
+                                        .col-md-6(style="text-align : right;")
+                                            h5 
+                                            - let totalHarga = 0;
+                                            - for(let i = 0; i < Items.length; i++){
+                                               - totalHarga+= Items[i].harga;
+                                            - }
+                                                |Rp #{totalHarga}
+                                    hr
+                                    .row
+                                        a(href="")
+                                            button.btn.col-md-12.col-sm-12.col-xs-12.checkOutButtom#bayar(type='button')
+                                                | Bayar
+                        .space
+                        br
+                        .row
+                            .col-md-12#Order
+                                .col-md-5   
+                                    h4
+                                        i.fas.fa-map-marker-alt  Desc Items
+                                    .card
+                                        .col-md-12
+                                            each item in Items
+                                                .col-md-4
+                                                    if item.imageName
+                                                        img(src="img/" + item.imageName, alt="", width="60px")
+                                                    else
+                                                        img(src="img/image-not-found.gif", width="60px")
+                                                .col-md-8
+                                                    h5 #{item.namabarang}
+                                                    h5 #{item.harga}  
+                            .col-md-12
+                                
+
+
+
+
+
+
+
+
+
+
+
+
+                                //modal
+                                #exampleModalLong.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLongTitle', aria-hidden='true')
+                                    .modal-dialog(role='document')
+                                        .modal-content
+                                            .modal-header
+                                                h3#exampleModalLabel.modal-title 
+                                                    center Ubah Alamat
+                                                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                                    span(aria-hidden='true') ×
+                                            .modal-body
+                                                div
+                                                    .form-group.row
+                                                    label.col-lg-3.col-form-label.form-control-label Provinsi
+                                                    .col-lg-9
+                                                        input.form-control(type='text', name="provinsi",value=userData[0].Provinsi)
+                                                    .form-group.row
+                                                    label.col-lg-3.col-form-label.form-control-label Kota
+                                                    .col-lg-9
+                                                        input.form-control(type='text', name="kota", value=userData[0].Kota )
+                                                    .form-group.row
+                                                    label.col-lg-3.col-form-label.form-control-label Kecamatan
+                                                    .col-lg-9
+                                                        input.form-control(type='text', name="kecamatan", value=userData[0].Kecamatan )
+                                                    .form-group.row
+                                                    label.col-lg-3.col-form-label.form-control-label Desa
+                                                    .col-lg-9
+                                                        input.form-control(type='text', name="desa", value=userData[0].Desa )
+                                                    .form-group.row
+                                                    label.col-lg-3.col-form-label.form-control-label Kodepos
+                                                    .col-lg-9
+                                                        input.form-control(type='text', name="kota", value=userData[0].Kode_pos )
+                                                    .form-group.row
+                                                    label.col-lg-3.col-form-label.form-control-label Alamat Lengkap
+                                                    .col-lg-9
+                                                        textarea#exampleFormControlTextarea1.form-control(rows='3', name="alamat")= userData[0].Alamat_lengkap
+                                                    .form-group.row
+                                            .modal-footer
+                                                button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+                                                button.btn.btn-primary(type='button') Save changes
+                                            //- .modal-footer
+                                                button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+                                                button.btn.btn-primary(type='button') Save changes
+                                        
+                                  
+                        //- .col-xs-1
+                        //- .col-xs-10
+                        //-     table.table.cartTable.table-responsive
+                        //-         tbody#rowAdd
+                        //-             tr
+                        //-                 th.col-xs-2(style="text-align: center; vertical-align: middle;")  
+                        //-                     h4 Alamat
+                        //-                 th(style="vertical-align: middle;")
+                        //-                     table
+                        //-                         tr
+                        //-                             td
+                        //-                                 h4= userData[0].Alamat_lengkap
+                        //-                         tr
+                        //-                             td
+                        //-                                 h4 Desa #{userData[0].Desa}
+                        //-                         tr
+                        //-                             td
+                        //-                                 h4 Kecamatan #{userData[0].Kecamatan}
+                        //-                         tr
+                        //-                             td
+                        //-                                 h4 Kota #{userData[0].Kota}
+                        //-                         tr
+                        //-                             td
+                        //-                                 h4 Provinsi #{userData[0].Provinsi}
+                        //-                         tr
+                        //-                             td
+                        //-                                 h4 Kode Pos #{userData[0].Kode_pos}
+                        //-     a#addRow
+                        //-         i.far.fa-edit Tambah Alamat                
+                                        
+            include default/footer.pug
+        include default/side.pug
+    script(src="js/script.js")
+    script.
+        $("#addRow").click(function(){
+            var markup = `.col-md-5
+                                h4
+                                    i.fas.fa-map-marker-alt  Place Order
+                                .card
+                                    .col-md-12
+                                        h5 #{userData[0].Nama_Penerima} (#{userData[0].Kode_pos})
+                                        h5 #{userData[0].no_telp}
+                                        h5 #{userData[0].Alamat_lengkap}
+                                    .col-md-5
+                                        button.btn.col-md-12.col-sm-12.col-xs-12.checkOutButtom(type='button', data-toggle='modal', data-target='#exampleModalLong')
+                                            | Order`;
+            $("#rowAdd").append(markup);
+        });
+
+        $('#addAddress').click(function(){
+            console.log("Hello");
+        });
+
+        $('#ubahAlamat').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        })
+
+        $('#bayar').click(function(){
+            let data = {
+                    nama : `#{userData[0].nama}`,
+                    email : `#{userData[0].email}`,
+                    alamat : `#{userData[0].Alamat_lengkap}`,
+                    namaPemesan : '#{userData[0].nama}',
+                    kodePos : '#{userData[0].Kode_pos}',
+                    Provinsi : '#{userData[0].Provinsi}',
+                    Kota : '#{userData[0].Kota}',
+                    Kecamatan : '#{userData[0].Kecamatan}',
+                    Desa : '#{userData[0].Desa}'
+                };
+            //- let data = `${JSON.stringify(userData[0])}`;
+            alert(JSON.stringify(data));
+            if(data.alamat === ""){
+                alert("Alamat tidak boleh kosong");
+            }else{
+                //- alert("Ok");
+                $.ajax({
+                    url: "/checkout",
+                    type: 'POST',
+                    data: data,
+                    //- success: function(data){
+                        
+                    //-     //- var markup = `
+                    //-     //- <br>
+                    //-     //- <br>
+                    //-     //- <div class="col-md-5 ">
+                    //-     //-     <h4>
+                    //-     //-         <i class="fas fa-map-marker-alt"></i>Place Order
+                    //-     //-     </h4>
+                    //-     //-     <div class="card">
+                    //-     //-         <div class="col-md-12">
+                    //-     //-             <h5>#{userData[0].Nama_Penerima} (#{userData[0].Kode_pos})</h5>
+                    //-     //-             <h5>#{userData[0].no_telp}</h5>
+                    //-     //-             <h5>#{userData[0].Alamat_lengkap}</h5>
+                    //-     //-         </div>
+                    //-     //-         <div class="col-md-5">
+                    //-     //-             <button class="btn col-md-12 col-sm-12 col-xs-12 checkOutButtom" type="button"></button>
+                    //-     //-         </div>
+                    //-     //-     </div>
+                    //-     //- </div>  
+                    //-     //- `;
+                    //-     //- $("#Order").append(markup);
+                        
+                    //- },
+                    //- error: function(xhr, status, error) {
+                    //-     console.log("Error")
+                    //- }
+                })
+            }
+        })
+

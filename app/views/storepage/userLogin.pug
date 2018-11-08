@@ -1,0 +1,170 @@
+doctype html
+html
+  head
+    include default/head.pug
+  body
+    span#main
+        include default/nav.pug
+        // login
+        br
+        br
+        .container-fluid
+            .row
+                .col-md-6.col-sm-8.col-xs-12.col-md-offset-3.col-sm-offset-2
+                    if messages.info
+                        .container.bg-danger.messages-info
+                            .row
+                                b
+                                    p.messages= messages.info
+                                i.fa.fa-times.removeInLoginMessages#removeLoginMessages
+                    .panel.panel-login
+                        .panel-heading
+                            .row
+                                .col-xs-6.col-sm-6.col-md-6
+                                    a#login-form-link.active(href='#') Login
+                                .col-xs-6.col-sm-6.col-md-6
+                                    a#register-form-link(href='#') Register
+                        hr
+                        .panel-body
+                            .row
+                                .col-lg-12
+                                form#login-form(action='/login', method='post', role='form', style='display: block;')
+                                    .form-group
+                                    input#username.form-control(type='text', name='username', tabindex='1', placeholder='Username', value='', required)
+                                    .form-group
+                                    input#password.form-control(type='password', name='password', tabindex='2', placeholder='Password', required)
+                                    .form-group.text-center
+                                    input#remember(type='checkbox', tabindex='3', name='remember')
+                                    label(for='remember')  Remember Me
+                                    .form-group
+                                    .row
+                                        .col-sm-6.col-sm-offset-3
+                                            input#login-submit.form-control.btn.btn-login(type='submit', name='login-submit', tabindex='4', value='Log In')
+                                    .form-group
+                                    .row
+                                        .col-lg-12
+                                        .text-center
+                                            a.forgot-password(href='#', tabindex='5') Forgot Password?
+                                form#register-form( role='form', style='display: none;', onsubmit="return validateRegist()")
+                                    .form-group
+                                    input#nama.form-control(type='text', name='nama', tabindex='1', placeholder='Nama', value='', required)
+                                    .form-group
+                                    input#usernameRegister.form-control(type='text', name='username', tabindex='1', placeholder='Username', value='', required)
+                                    div#inforegisterUser
+                                    .form-group
+                                    input#email.form-control(type='email', name='email', tabindex='1', placeholder='Email Address', value='', required, pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")
+                                    div#inforegisterMail
+                                    .form-group
+                                    input#passwordRegister.form-control(type='password', name='password', tabindex='2', placeholder='Password', required)
+                                    .form-group
+                                    input#confirm-password.form-control(type='password', name='confirm-password', tabindex='2', placeholder='Confirm Password', required)
+                                    div#infoPassword
+                                    .form-group
+                                    .row
+                                        .col-sm-6.col-sm-offset-3
+                                            input#register-submit.form-control.btn.btn-register(type='submit', name='register-submit', tabindex='4', value='Register Now')
+                    .row.login-content
+                // end of login
+
+        include default/footer.pug
+    include default/side.pug
+    - var script= secret
+    script(src="js/script.js")
+    script.
+        var isTrue = true;
+        $('#email').on('change', function(){
+            console.log($('#inforegisterMail').text())
+            isTrue = true;
+            if($('#inforegisterMail').text() != ""){
+                $('#inforegisterMail').removeClass('inforegister');
+                $('#inforegisterMail').html("");
+                console.log("hello")
+                isTrue = true;
+            }
+            var email = document.getElementById('email').value;
+            var sliceMail = email.slice(-4);
+            if(sliceMail !== ".com"){
+                $('#inforegisterMail').addClass('inforegister');
+                $('#inforegisterMail').html('Alamat email yang anda masukan salah')
+                isTrue = false;
+            }
+            else{
+                isTrue = true;
+            }
+            
+            let notavailable = $.get('/register/#{script}', function(data, status){
+                isTrue = true;
+                    data.forEach(function(i) {
+                        if($('#email').val() == i.email){
+                            $('#inforegisterMail').addClass('inforegister');
+                            $('#inforegisterMail').html('Maaf Email sudah dipakai')
+                            notavailable = 0;
+                            console.log("mana dulu")
+                            isTrue = false;
+                        }
+                        else{
+                            isTrue = true;
+                        }
+                        console.log(notavailable);
+                    });
+                    
+                    console.log(data)
+                })
+
+            console.log(notavailable)
+            console.log("Hello")
+        })
+
+        $('#usernameRegister').on('change', function(){
+            if($('#inforegisterUser').text() !== ""){
+                $('#inforegisterUser').html("")
+                $('#inforegisterUser').removeClass('inforegister');
+                isTrue = true;
+            }
+            $.get('/register/#{script}', function(data, status){
+                data.forEach(function(i){
+                    if($('#usernameRegister').val() == i.username){
+                        $('#inforegisterUser').addClass('inforegister');
+                        $('#inforegisterUser').html('Maaf Username sudah dipakai')
+                        isTrue = false;
+                    }
+                })
+            })
+        })
+
+        $('#passwordRegister').on('change', function(){
+            if($('#passwordRegister').val().length){
+                console.log("Kurang panjang")
+                isTrue = false;
+            }
+            else{
+                if($('#passwordRegister').val() !== $('#confirm-password').val()){
+                    $('#infoPassword').addClass('inforegister')
+                    $('#infoPassword').html('Confirmasi Password anda tidak sama dengan password yang anda masukan')
+                    isTrue = false;
+                }
+                else{
+                    $('#infoPassword').removeClass('inforegister')
+                    $('#infoPassword').html("")
+                }
+            }
+        })
+
+        $('#confirm-password').on('change', function(){
+            console.log($('#passwordRegister').val())
+            console.log($('#confirm-password').val())
+            if($('#passwordRegister').val() !== $('#confirm-password').val()){
+                $('#infoPassword').addClass('inforegister')
+                $('#infoPassword').html("Confirmasi Password anda tidak sama dengan password yang anda masukan")
+                isTrue = false;
+            }
+            else{
+                $('#infoPassword').removeClass('inforegister')
+                $('#infoPassword').html("")
+            }
+            console.log(isTrue)
+        })
+
+        function validateRegist(){
+            return false
+        }

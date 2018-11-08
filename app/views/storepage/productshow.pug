@@ -1,0 +1,214 @@
+html(lang="en")
+    head
+        include default/head.pug
+        title Document
+        script(defer, src='/js/jquery.flexslider.js')
+
+        link(rel='stylesheet', href='/stylesheets/flexslider.css', type='text/css', media='screen')
+        script.
+            // Can also be used with $(document).ready()
+            $(window).load(function() {
+                $('.flexslider').flexslider({
+                    animation: "slide",
+                    controlNav: "thumbnails"
+                });
+            });
+            // flex slider
+        script(src='/js/imagezoom.js')
+    body
+        span#main
+            include default/nav.pug
+            #content.container
+                .row
+                    .cart
+                        a(href='/cart')
+                            i.fa.fa-shopping-cart.fa-3x.cart-logo
+                                if inCart
+                                    span.cart-amount= MuchOnCart
+                                else
+                                    span.cart-amount    
+                    .headlineProduct
+                br
+                br
+                .products
+                    .container
+                        .single-page
+                            #detail-21.single-page-row
+                                .col-md-6.single-top-left
+                                    .flexslider
+                                        ul.slides
+                                            each product in data
+                                                li(data-thumb='/img/' + product.gambar)
+                                                    .thumb-image.detail_img
+                                                        img.img-responsive(src='/img/' + product.gambar, data-imagezoom='true', alt='')
+                                .col-md-6.single-top-right
+                                    if messages.info
+                                        .container.bg-danger.messages-info
+                                            .row
+                                                b
+                                                    p.messages= messages.info
+                                                i.fa.fa-times.removeInLoginMessages#removeLoginMessages
+                                    h3.item_name= data[0].namabarang
+                                    //- p Processing Time: Item will be shipped out within 2-3 working days. 
+                                    //- .single-rating
+                                    //-     ul
+                                    //-         li
+                                    //-             i.fa.fa-star-o(aria-hidden='true')
+                                    //-         li
+                                    //-             i.fa.fa-star-o(aria-hidden='true')
+                                    //-         li
+                                    //-             i.fa.fa-star-o(aria-hidden='true')
+                                    //-         li
+                                    //-             i.fa.fa-star-o(aria-hidden='true')
+                                    //-         li
+                                    //-             i.fa.fa-star-o(aria-hidden='true')
+                                    //-         //- li.rating 20 reviews
+                                    //-         li
+                                    //-             a(href='#') Add your review
+                                    .single-price
+                                        ul
+                                            li= 'Rp. ' + data[0].harga
+                                            //- li
+                                            //-     del $60
+                                            //- li
+                                            //-     span.w3off 10% OFF
+                                            //- li Ends on: Oct,15th
+                                            //- li
+                                            //-     a(href='#')
+                                            //-         i.fa.fa-gift(aria-hidden='true')
+                                            //-         |  Coupon
+                                    p.single-price-text
+                                        | Fusce a egestas nibh, eget ornare erat. Proin placerat, urna et consequat efficitur, sem odio blandit enim, sit amet euismod turpis est mattis lectus. Vestibulum maximus quam et quam egestas imperdiet. In dignissim auctor viverra.
+                                    form(action="/product/search/" + data[0].id_barang, method="POST")
+                                        .row
+                                            .col-md-12
+                                                ul.bann-btns
+                                                    li
+                                                        input#quantity(type="hidden", name="jumlah", value="1")
+                                                        select.bann-size#checkStock(name="size")
+                                                            option(value="") size
+                                                            option(value="S") S
+                                                            option(value="M") M
+                                                            option(value="L") L
+                                                            option(value="XL") XL
+                                                    li
+                                                        .quantity
+                                                            .quantity-select
+                                                                .entry.value-minus &nbsp
+                                                                .entry.value
+                                                                    span 1
+                                                                    
+                                                                .entry.value-plus.active &nbsp;
+                                        .row
+                                            .col-md-12
+                                                div#info.infostock
+                                        .row
+                                        button.w3ls-cart#addCart(type="submit")
+                                            i.fa.fa-cart-plus(aria-hidden="true") 
+                                            | Add To Cart
+                                    button.w3ls-cart.w3ls-cart-like
+                                        i.fa.fa-heart-o(aria-hidden='true')
+                                        |  Add to Wishlist
+                            .clearfix  
+                        // collapse-tabs
+                        br
+                        br
+                        br
+                        .row
+                            .textProduct-Heading
+                                b Deskripsi
+                            .row
+                                .col-md-12.col-sm-12.col-xs-12
+                                    p= data[0].desc
+                        //- .collpse.tabs
+                        //-     h3.w3ls-title About this item       
+                        //-     #accordion.panel-group.collpse(role='tablist', aria-multiselectable='true')   
+                        //-         .panel.panel-default
+                        //-             #headingOne.panel-heading(role='tab')
+                        //-                 h4.panel-title
+                        //-                     a.pa_italic(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseOne', aria-expanded='true', aria-controls='collapseOne')
+                        //-                         i.fa.fa-file-text-o.fa-icon(aria-hidden='true')
+                        //-                             |  Description 
+                        //-                         span.fa.fa-angle-down.fa-arrow(aria-hidden='true')
+                        //-                             i.fa.fa-angle-up.fa-arrow(aria-hidden='true')
+                        //-             #collapseOne.panel-collapse.collapse.in(role='tabpanel', aria-labelledby='headingOne')
+                        //-                 .panel-body 
+                        //-                     p= data[0].desc
+                        //-         .panel.panel-default
+                        //-             #headingTwo.panel-heading(role='tab')
+                        //-                 h4.panel-title
+                        //-                     a.collapsed.pa_italic(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseTwo', aria-expanded='false', aria-controls='collapseTwo')
+                        //-                         i.fa.fa-info-circle.fa-icon(aria-hidden='true')
+                        //-                         |  additional information 
+                        //-                         span.fa.fa-angle-down.fa-arrow(aria-hidden='true')
+                        //-                             i.fa.fa-angle-up.fa-arrow(aria-hidden='true')
+                        //-             #collapseTwo.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingTwo')
+                        //-                 .panel-body
+                        //-                     | Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        //-         .panel.panel-default
+                        //-             #headingThree.panel-heading(role='tab')
+                        //-                 h4.panel-title
+                        //-                     a.collapsed.pa_italic(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseThree', aria-expanded='false', aria-controls='collapseThree')
+                        //-                         i.fa.fa-check-square-o.fa-icon(aria-hidden='true')
+                        //-                         |  reviews (5) 
+                        //-                         span.fa.fa-angle-down.fa-arrow(aria-hidden='true')
+                        //-                             i.fa.fa-angle-up.fa-arrow(aria-hidden='true')
+                        //-             #collapseThree.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingThree')
+                        //-                 .panel-body
+                        //-                     | Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        //-         .panel.panel-default
+                        //-             #headingFour.panel-heading(role='tab')
+                        //-                 h4.panel-title
+                        //-                     a.collapsed.pa_italic(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseFour', aria-expanded='false', aria-controls='collapseFour')
+                        //-                         i.fa.fa-question-circle.fa-icon(aria-hidden='true')
+                        //-                         |  help 
+                        //-                         span.fa.fa-angle-down.fa-arrow(aria-hidden='true')
+                        //-                             i.fa.fa-angle-up.fa-arrow(aria-hidden='true')
+                        //-             #collapseFour.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingFour')
+                        //-                 .panel-body
+                        //-                     | Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        //-         // //collapse                                                        
+                                    
+            include default/footer.pug
+        include default/side.pug
+        script.
+            var quantity = document.getElementById('quantity');
+            $('.value-plus').on('click', function(){
+                var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)+1;
+                divUpd.text(newVal);
+                quantity.value = newVal;
+            });
+
+            $('.value-minus').on('click', function(){
+                var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)-1;
+                //- quantity.value = newVal;
+                if(newVal>=1){
+                    divUpd.text(newVal);
+                    quantity.value = newVal;
+                }
+            });
+            $('#checkStock').on('change', function(){
+                $.getJSON("/product/#{data[0].id_barang}/" + $('#checkStock').val() + "", function(data, status){
+                    $('#info').html("Stok tersisa : " + data[0].stock)
+                });
+            })
+            $('#addCart').click(function(e){
+                $.ajax({
+                    url: "/product/search/" + data[0].id_barang,
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data){
+                        console.log('upload successful!');
+                        console.log(data)
+                    },
+                    error: function(xhr, status, error) {
+                        
+                    }
+                })
+                $.post("demo_test.asp", function(data, status){
+                    alert("Data: " + data + "\nStatus: " + status);
+                });
+            })
+    script(src='/js/script.js')

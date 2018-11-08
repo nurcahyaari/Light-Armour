@@ -1,0 +1,64 @@
+#nav
+  span#logo-home
+    a(href="/") Light Armor
+  span#navnav
+    span#icon-hamburger.icon-hamburger
+      i.fa.fa-bars.fa-3x.icon-change(aria-hidden='true')
+    ul#nav-id
+      li
+        a#nav-home(href='/')
+          span.text-nav 
+            h5 HOME
+      li
+        a#drpbtn
+          span#dropbtn.text-nav
+            h5 PRODUCT 
+              span.fa.fa-angle-down
+        ul#navnav-drop
+          li
+            a#drop-text(href='/show/tshirt') 
+              h5 T-SHIRT
+          li
+            a#drop-text(href='/show/jacket') 
+              h5  JACKET
+          li
+            a#drop-text(href='/show/jeans') 
+              h5  JEANS
+      li
+        a#nav-login(href='#!')
+          span.text-nav 
+            h5 ABOUT
+      li
+        if userLogin == true
+            a#drpbtnUser(href='/account/' + login_username)
+                span#dropbtn.text-nav
+                  h5= login_nama
+            ul#dropUser
+              li
+                a#drop-text(href='tsirt.html') T-SHIRT
+              li
+                a#drop-text(href='jacket.html') JACKET
+              li
+                a#drop-text(href='') JEANS
+        else
+            a#nav-login(href='/login')
+                span.text-nav 
+                  h5  LOGIN
+      li
+        span#nav-cart.nav-cart
+          a(href='/cart')
+            i.fa.fa-shopping-cart.fa-2x.nav-cart-logo
+              if inCart
+                h5
+                  span.cart-amount#cart-amount= MuchOnCart
+              else
+                h5
+                  span.cart-amount#cart-amount
+    span#nav-cart-resize.nav-cart-resize
+      a(href='/cart')
+        i.fa.fa-shopping-cart.fa-2x.nav-cart-logo-resize
+          if inCart
+            span.cart-amount#cart-amount= MuchOnCart
+          else
+            span.cart-amount#cart-amount
+          

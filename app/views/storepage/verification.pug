@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        include default/head.pug
+        title Verifikasi
+    body
+        span#main
+            include default/nav.pug
+            // login
+            br
+            br
+            .container-fluid
+                .row
+                    h1 Verifikasi Pembayaran
+                    table.table.table-hover.cartTable
+                        thead
+                            tr
+                                th Nama Barang
+                                th Gambar
+                                th Size
+                                th Jumlah
+                        tbody
+                            each product in yourProduct
+                                tr
+                                    td= product.namabarang
+                                    td
+                                        img(src="/img/" + product.gambar, alt="", width="128px")
+                                    td= product.size
+                                    td= product.jumlah
+                                    td= product.id_pembeli
+                    if messages.info
+                        .container.bg-danger.messages-info
+                            .row
+                                b
+                                    p.messages= messages.info
+                    else
+                        form(action="", method="POST", enctype="multipart/form-data")
+                            label Upload bukti Transfer
+                            input(type="hidden", name="email", value="" + yourProduct[0].id_pembeli)
+                            input(type="file", name="image", accept="image/*")
+                            input(type="submit")
+            include default/footer.pug
+        include default/side.pug
+    script(src="js/script.js")
+

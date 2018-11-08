@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        include default/head.pug
+        title Document
+    body
+        - let productsbaju = new Array();
+        span#main
+            // start of navigation bar
+            include default/nav.pug
+            //- #content.container
+                //- .row
+                    //- .col-md-12.col-sm-12.col-xs-12
+                    //-     .row
+                    //-         .col-md-4.col-sm-4.col-xs-4.col-md-offset-1.col-xs-offset-1
+                    //-             .textProduct-Heading
+                    //-                 h1 Profile #{profile[0].nama}
+                    //-     br
+                    //-     br
+                    //-     br
+                    //-     .row
+                    //-         .col-md-4.col-sm-6.col-xs-8.col-md-offset-1.col-sm-offset-4.col-xs-offset-2
+            //- if profile[0].picture_profile
+            //-     form(action="", method="POST", enctype="multipart/form-data")
+            //-         a(href="")
+            //-             img#selectLogo.imgOption(src="/uploads/"+profile[0].picture_profile, alt="", width="256px")
+            //-             input#logo(type="file")
+            //- else
+            //-     form(action="", method="POST", enctype="multipart/form-data")
+            //-         a(href="")
+            //-             img#selectLogo.imgOption(src="/img/image-not-found.gif", alt="", width="256px")
+            //-             input#logo(type="file", name="image", accept="image/*")
+                    //-         .col-md-6.col-sm-6.col-xs-8.col-sm-offset-4.col-xs-offset-1
+                    //-             h1 Information
+                    //-             .row
+                    //-                 span Nama : 
+                    //-                 span= profile[0].nama
+                    //-             .row
+                    //-                 span Alamat : 
+                    //-                 span= profile[0].alamat
+                    //-             .row
+                    //-                 span Email : 
+                    //-                 span= profile[0].email
+            .container
+                .row.my-2
+                    h1 User Information
+                    br
+                    .col-lg-4.order-lg-1.text-center
+                        if profile[0].picture_profile
+                            form(action="", method="POST", enctype="multipart/form-data")
+                                a(href="")
+                                    img#selectLogo.imgOption.mx-auto.img-fluid.img-circle.d-block(src="/uploads/"+profile[0].picture_profile, alt="", width="150px")
+                                    input#logo(type="file")
+                        else
+                            form(action="", method="POST", enctype="multipart/form-data")
+                                a(href="")
+                                    img#selectLogo.imgOption.mx-auto.img-fluid.img-circle.d-block(src="/images/image-not-found.gif", alt="", width="150px")
+                                    input#logo(type="file", name="image", accept="image/*")
+                        //- if profile[0].picture_profile
+                        //-     img#selectLogo.imgOption.mx-auto.img-fluid.img-circle.d-block(src="/uploads/"+profile[0].picture_profile, alt="", width="150px")
+                        //-     //- form(action="", method="POST", enctype="multipart/form-data")
+                        //-     //-     a(href="")
+                        //-     //-         img#selectLogo.imgOption.mx-auto.img-fluid.img-circle.d-block(src="/uploads/"+profile[0].picture_profile, alt="", width="150px")
+                        //-             //- input#logo(type="file")
+                        //-             //- h6.mt-2 Upload a different photo
+                        //-             //- label.custom-file
+                        //-             //-     input#file.custom-file-input(type="file", name="image", accept="image/*")
+                        //-                 span.custom-file-control Choose file
+                        //- else
+                        //-     img#selectLogo.imgOption.mx-auto.img-fluid.img-circle.d-block(src="/img/image-not-found.gif", alt="", width="256px")
+                            //- form(action="", method="POST", enctype="multipart/form-data")
+                            //-     a(href="")
+                            //-         img#selectLogo.imgOption.mx-auto.img-fluid.img-circle.d-block(src="/img/image-not-found.gif", alt="", width="256px")
+                            //-         input#logo(type="file", name="image", accept="image/*")
+                            //-         h6.mt-2 Upload a different photo
+                            //-         label.custom-file
+                            //-             input#file.custom-file-input(type="file", name="image", accept="image/*")
+                            //-             span.custom-file-control Choose file
+                        //- img.mx-auto.img-fluid.img-circle.d-block(src='//placehold.it/150', alt='avatar')
+                        //- h6.mt-2 Upload a different photo
+                        //- label.custom-file
+                        //-     input#file.custom-file-input(type='file')
+                        //-     span.custom-file-control Choose file
+                    .col-lg-8.order-lg-2
+                        ul.nav.nav-tabs
+                            li.nav-item
+                                a.nav-link.active(href='', data-target='#profile', data-toggle='tab') Profile
+                            li.nav-item
+                                a.nav-link(href='', data-target='#edit', data-toggle='tab') Edit
+                            li.nav-item
+                                a.nav-link(href='', data-target='#transaction', data-toggle='tab') Transaction
+                            li
+                                a.nav-link(href='/logout/' + profile[0].username) Logout
+                        .tab-content.py-4
+                            #profile.tab-pane.active
+                                h3.mb-3 #{profile[0].nama} Profile
+                                .row
+                                    .col-md-6
+                                        h4 Nama
+                                        p
+                                            | #{profile[0].nama}
+                                        h4 Alamat
+                                        table#table
+                                            tr
+                                                td 
+                                                    h5 Alamat Lengkap
+                                                td : 
+                                                td.col-xs-1
+                                                td
+                                                    | #{profile[0].Alamat_lengkap} 
+                                            tr
+                                                td 
+                                                    h5 Provinsi
+                                                td : 
+                                                td.col-xs-1
+                                                td
+                                                    | #{profile[0].Provinsi} 
+                                            tr
+                                                td 
+                                                    h5 Kota
+                                                td : 
+                                                td.col-xs-1
+                                                td
+                                                    | #{profile[0].Kota} 
+                                            tr
+                                                td 
+                                                    h5 Kecamatan
+                                                td : 
+                                                td.col-xs-1
+                                                td
+                                                    | #{profile[0].Kecamatan} 
+                                            tr
+                                                td 
+                                                    h5 Desa
+                                                td : 
+                                                td.col-xs-1
+                                                td
+                                                    | #{profile[0].Desa} 
+                                        h4 Email
+                                        p
+                                            | #{profile[0].email}
+                                        h4 No Telp
+                                        p
+                                            | #{profile[0].no_telp}
+
+                                    
+                            #edit.tab-pane
+                                #edit.tab-pane
+                                    form(role='form', action="", method="POST", enctype="multipart/form-data")
+                                        .form-group.row
+                                            label.col-lg-3.col-form-label.form-control-label
+                                            h3 User Info
+                                        .form-group.row
+                                        label.col-lg-3.col-form-label.form-control-label Profile Picture
+                                        .col-lg-9
+                                            input.form-control(type='file', name="avatar", value="")
+                                        .form-group.row
+                                        label.col-lg-3.col-form-label.form-control-label Nama
+                                        .col-lg-9
+                                            input.form-control(type='text', name="nama", value=profile[0].nama)
+                                        .form-group.row
+                                        label.col-lg-3.col-form-label.form-control-label email
+                                        .col-lg-9
+                                            input.form-control(type='text', name="email", value=profile[0].email disabled)
+                                        .form-group.row
+                                        .form-group.row
+                                            label.col-lg-3.col-form-label.form-control-label
+                                            h3 Alamat
+                                        .form-group.row
+                                        label.col-lg-3.col-form-label.form-control-label Provinsi
+                                        .col-lg-9
+                                            input.form-control(type='text', name="provinsi",value=profile[0].Provinsi)
+                                        .form-group.row
+                                        label.col-lg-3.col-form-label.form-control-label Kota
+                                        .col-lg-9
+                                            input.form-control(type='text', name="kota", value=profile[0].Kota )
+                                        .form-group.row
+                                        label.col-lg-3.col-form-label.form-control-label Kecamatan
+                                        .col-lg-9
+                                            input.form-control(type='text', name="kecamatan", value=profile[0].Kecamatan )
+                                        .form-group.row
+                                        label.col-lg-3.col-form-label.form-control-label Desa
+                                        .col-lg-9
+                                            input.form-control(type='text', name="desa", value=profile[0].Desa )
+                                        .form-group.row
+                                        label.col-lg-3.col-form-label.form-control-label Alamat Lengkap
+                                        .col-lg-9
+                                            textarea#exampleFormControlTextarea1.form-control(rows='3', name="alamat")= profile[0].Alamat_lengkap
+                                        .form-group.row
+                                        label.col-lg-3.col-form-label.form-control-label
+                                        .col-lg-9
+                                            input.btn.btn-secondary(type='reset', value='Cancel')
+                                            input.btn.btn-primary(type='submit', value='Save Changes')
+                            #transaction.tab-pane
+                    
+            include default/footer.pug
+        include default/side.pug
+        script.
+    script(src='/js/script.js')

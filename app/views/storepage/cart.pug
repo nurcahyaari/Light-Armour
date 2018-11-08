@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        include default/head.pug
+        title Document
+    body
+        span#main
+            include default/nav.pug
+            // login
+            br
+            br
+            .container
+                .row
+                    .col-xs-1
+                    .col-xs-10   
+                        h1 Cart
+                        if thereIsAProductinCart
+                            table.table.cartTable.table-bordered.table-responsive
+                                thead
+                                    tr
+                                        th(style="text-align: center; vertical-align: middle;")  
+                                        th(style="text-align: center; vertical-align: middle;") 
+                                        th(style="text-align: center; vertical-align: middle;")  
+                                            h4 Size
+                                        th(style="text-align: center; vertical-align: middle;")  
+                                            h4 Harga
+                                        th(style="text-align: center; vertical-align: middle;")  
+                                            h4 Banyak
+                                        th(style="text-align: center; vertical-align: middle;")  
+                                            h4 Total
+                                tbody
+                                    if thereIsAProductinCart
+                                        - var i = 0;
+                                        - var totalArray = new Array(); 
+                                        - var subtotal = 0;
+                                        each product in dataProduct
+                                            tr
+                                                td(style="text-align: center; vertical-align: middle;") 
+                                                    form(action="/cart/" + product.id_barang, method="POST")
+                                                        button(id="deleteDataInCart", class="deleteDataInCart") 
+                                                            i(class="far fa-trash-alt" aria-hidden="true")  
+                                                            
+                                                td(style="text-align: center; vertical-align: middle;") 
+                                                    table
+                                                        tr
+                                                            td
+                                                                img(src="img/" + product.imageName, alt="", width="150px")
+                                                            td
+                                                                h3= product.namabarang
+                                                   
+                                                td(style="text-align: center; vertical-align: middle;")
+                                                    h5 #{product.size}
+                                                td(style="text-align: center; vertical-align: middle;")
+                                                    h5 #{product.harga}
+                                                //- - for(var j = 0; j < QuantityandTotal.length; j++)
+                                                //-     if QuantityandTotal[j].id == product.id_barang
+                                                //-         td= QuantityandTotal[j].jumlah
+                                                td(style="text-align: center; vertical-align: middle;")
+                                                    h5 #{QuantityandTotal[i].jumlah} 
+                                                //- - for(var j = 0; j < QuantityandTotal.length; j++)
+                                                //-     if QuantityandTotal[j].id == product.id_barang
+                                                //-         td= QuantityandTotal[j].jumlah * product.harga
+                                                td(style="text-align: center; vertical-align: middle;")
+                                                    h5 #{QuantityandTotal[i].jumlah * product.harga}
+                                                - totalArray.push(QuantityandTotal[i].jumlah * product.harga)
+                                                - subtotal += totalArray[i]
+                                                - i++
+                            .row
+                                .col-xs-8
+                                .col-xs-4
+                                    h3 Cart Total
+                                    table.table.cartTable.table-responsive
+                                        tr
+                                            td(style="text-align: left;")
+                                                h4 Total : #{subtotal}
+                            div
+                                // Button trigger modal
+                                if userLogin == true
+                                    a(href="/checkout")
+                                        .col-md-3.col-sm-4.col-xs-12.col-md-offset-9.col-sm-offset-8.checkOutButtom
+                                            center
+                                                p Lanjutkan Pembayaran
+                                else
+                                    button.btn.col-md-3.col-sm-4.col-xs-12.col-md-offset-9.col-sm-offset-8.checkOutButtom(type='button', data-toggle='modal', data-target='#exampleModal')
+                                        | Lanjutkan Pembayaran
+                                    // Modal
+                                    #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+                                        .modal-dialog(role='document')
+                                            .modal-content
+                                                .modal-header
+                                                    h3#exampleModalLabel.modal-title Login
+                                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                                        span(aria-hidden='true') ×
+                                                .modal-body
+                                                    .container-fluid
+                                                        .row
+                                                        | Untuk Melakukan pembayaran silahkan login terlebih dahulu
+                                                        <br>
+                                                        .col-xs-12
+                                                            if messages.info
+                                                                .container.bg-danger.messages-info
+                                                                    .row
+                                                                        b
+                                                                            p.messages= messages.info
+                                                                        i.fa.fa-times.removeInLoginMessages#removeLoginMessages
+                                                            .panel.panel-login
+                                                                .panel-heading
+                                                                    .row
+                                                                        //- .col-xs-6.col-sm-6.col-md-6
+                                                                        a#login-form-link.active(href='#') Login
+                                                                        //- .col-xs-6.col-sm-6.col-md-6
+                                                                        //-     a#register-form-link(href='#') Register
+                                                                hr
+                                                                .panel-body
+                                                                    .row
+                                                                        .col-xs-12
+                                                                            //- form#login-form(action='/login', method='post', role='form', style='display: block;')
+                                                                            .form-group
+                                                                                input#username.form-control(type='text', name='username', tabindex='1', placeholder='Username', value='', required)
+                                                                            .form-group
+                                                                                input#password.form-control(type='password', name='password', tabindex='2', placeholder='Password', required)
+                                                                            .form-group.text-center
+                                                                                input#remember(type='checkbox', tabindex='3', name='remember')
+                                                                                label(for='remember')  Remember Me
+                                                                            .form-group
+                                                                            .row
+                                                                                .col-sm-6.col-sm-offset-3
+                                                                                    input#login-submit.form-control.btn.btn-login(type='submit', name='login-submit', tabindex='4', value='Log In')
+                                                                            .form-group
+                                                                            .row
+                                                                                .col-lg-12
+                                                                                .text-center
+                                                                                    a.forgot-password(href='#', tabindex='5') Forgot Password?
+                                                                            //- form#register-form( role='form', style='display: none;', onsubmit="return validateRegist()")
+                                                                            //-     .form-group
+                                                                            //-         input#nama.form-control(type='text', name='nama', tabindex='1', placeholder='Nama', value='', required)
+                                                                            //-     .form-group
+                                                                            //-         input#usernameRegister.form-control(type='text', name='username', tabindex='1', placeholder='Username', value='', required)
+                                                                            //-         div#inforegisterUser
+                                                                            //-     .form-group
+                                                                            //-         input#email.form-control(type='email', name='email', tabindex='1', placeholder='Email Address', value='', required, pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")
+                                                                            //-         div#inforegisterMail
+                                                                            //-     .form-group
+                                                                            //-         input#passwordRegister.form-control(type='password', name='password', tabindex='2', placeholder='Password', required)
+                                                                            //-     .form-group
+                                                                            //-         input#confirm-password.form-control(type='password', name='confirm-password', tabindex='2', placeholder='Confirm Password', required)
+                                                                            //-         div#infoPassword
+                                                                            //-     .form-group
+                                                                            //-     .row
+                                                                            //-         .col-sm-6.col-sm-offset-3
+                                                                            //-             input#register-submit.form-control.btn.btn-register(type='submit', name='register-submit', tabindex='4', value='Register Now')
+                                                            .row.login-content
+                                                        // end of login
+
+                                                .modal-footer
+
+                                //- a(href="/checkout")
+                                //-     .col-md-3.col-sm-4.col-xs-12.col-md-offset-9.col-sm-offset-8.checkOutButtom
+                                //-         center
+                                //-             p Lanjutkan Pembayaran
+                        else
+                            .container.bg-warning.messages-info
+                                b
+                                    h5= messages.messageCart
+            include default/footer.pug
+        include default/side.pug
+    script(src="js/script.js")
+    script.
+        $('#modal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        })
+
+        $('#login-submit').click(function(e){
+            var uname = $('#username').val();
+            var pw = $('#username').val();
+            $.ajax({
+                url: "/login/cart",
+                type: 'POST',
+                data: {'username' : uname, 'password' : pw},
+                success: function(data){
+                    window.location.reload();
+                    console.log("seccess");
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error")
+                }
+            })
+        })
+        
+

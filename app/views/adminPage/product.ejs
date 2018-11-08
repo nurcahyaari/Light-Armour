@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AdminLTE 2 | Data Tables</title>
+  <% include homepage/header %>
+</head>
+<body class="hold-transition skin-blue sidebar-mini loading">
+<div class="wrapper">
+
+  <% include homepage/headPanel %>
+  <% include homepage/sidePanel %>
+  <div class="modal"></div>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Data Tables
+        <small>advanced tables</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Tables</a></li>
+        <li class="active">Data tables</li>
+      </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">{{ productName }}</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="form-horizontal">
+                        <div class="col-xs-6 col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">id barang</label>
+                                <div class="col-sm-8">
+                                <input type="text" class="form-control" id="id_barang" value = "<%= data[0].id_barang %>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-4 control-label">nama barang</label>
+                                <div class="col-sm-8">
+                                <input type="text" class="form-control" id="namabarang" value = "<%= data[0].namabarang %>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-4 control-label">harga barang</label>
+                                <div class="col-sm-8">
+                                <input type="number" class="form-control" id="harga" value = "<%= data[0].harga %>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-4 control-label">Deskripsi</label>
+                                <div class="col-sm-8">
+                                <textarea name="desc" class="for-control col-xs-12 col-md-12 col-sm-12" id="desc" style="resize: none; height: 100px;"><%= data[0].description %></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-4 control-label">Size</label>
+                                <div class="col-sm-8">
+                                <select name="" id="size" class="col-sm-12 col-md-12 col-xs-12">
+                                    <option value="">Pilih Ukuran</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="form-group" id="stockValue" style="display : none;">
+                                <label for="sizestock" class="col-sm-4 control-label">Stok</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="sizestock">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-xs-6">
+                            <% for(let i = 0; i < images.length; i++){ %>
+                                <div class="col-xs-4 col-sm-4 col-md-4 min" id="<%=images[i].id%>">
+                                    <input type="hidden" value="<%=images[i].id%>" class="idOfImage">
+                                    <span style="position: absolute; display : block;" id="minVal">
+                                    </span>
+                                    <img src="/img/<%=images[i].gambar%>" class="col-xs-12 col-sm-12 col-md-12"  alt="Default Image">
+                                </div>
+                            <% } %>
+                            <div class="col-xs-4 col-sm-4 col-md-4">  
+                                <form action="" method="POST" enctype="multipart/form-data">
+                                    <a href=""  id="add">
+                                        <img src="/img/image-not-found.gif" id="selectLogo" class="col-xs-12 col-sm-12 col-md-12"  alt="Default Image">
+                                        <span style="position: absolute; display : block;" id="addVal">
+                                            
+                                        </span>
+                                        <input id="logo" type="file" name="image", accept="image/*">
+                                    </a>
+                                </form>
+                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-xs-12">
+                                <div class="col-sm-4 col-md-4"></div>
+                                <div class="col-sm-4">
+                                    <button type="submit" id="cancel" class="btn btn-default">Cancel</button>
+                                    <button type="submit" id="submit" class="btn btn-info pull-right">
+                                        <span id="loadingState"><i class="fa fa-refresh fa-spin"></i></span>    Submit
+                                    </button>
+                                </div>
+                                <div class="col-sm-4 col-md-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 2.4.0
+    </div>
+    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+    reserved.
+  </footer>
+</div>
+<!-- ./wrapper -->
+<% include homepage/footer %>
+<!-- page script -->
+<!-- <script src="/js/script.js"></script> -->
+<script>
+    let productData = {
+        id_barang :$("#id_barang").val(),
+        namabarang:$("#namabarang").val(),
+        harga:$("#harga").val(),
+        desc:$("#desc").val(),
+        size : []
+    }
+
+    $('#harga').on('keyup click', function(){
+        console.log("hello");
+        productData.harga = $("#harga").val();
+    })
+
+    $('#namabarang').on('change', function(){
+        productData.namabarang = $("#namabarang").val();
+    })
+
+    $('#desc').on('change', function(){
+        productData.desc = $("#desc").val();
+    })
+    $('#size').on('change', function(){
+        // if($("#size").val() != "" && $("#sizestock").val() !== undefined){
+        //     console.log($("#sizestock").val());
+        //     if(productData.size.length === 0){
+        //         productData.size.push({
+        //             size : $("#size").val(),
+        //             val  : $("#sizestock").val()
+        //         })
+        //     } else {
+        //         let rePush = true;
+        //         for(let i = 0; i < productData.size.length; i++){
+        //             if(productData.size[i].size === $("#size").val()){
+        //                 productData.size[i].val = $("#sizestock").val();
+        //                 rePush = false;
+        //                 break;
+        //             }
+        //         }
+        //         if(rePush){
+        //             productData.size.push({
+        //                 size : $("#size").val(),
+        //                 val  : $("#sizestock").val()
+        //             })
+        //         }
+                
+        //     }
+        // }
+        let isNothing = true;
+        if(productData.size.length > 0){
+            for(let i = 0; i < productData.size.length; i++){
+                if(productData.size[i].size === $("#size").val()){
+                    $("#sizestock").val(productData.size[i].val);
+                    isNothing = false;
+                    break;
+                }
+            }
+        }
+        if(isNothing) {
+            $.getJSON("/product?type=edit&id=" + $("#id_barang").val() + "&size="  + $("#size").val(), function(data, status){
+                productData.size.push({
+                    id : data.data[0].id,
+                    size : $("#size").val(),
+                    val  : data.data[0].stock
+                })
+                $("#stockValue").css("display", "block");
+                $("#sizestock").val(data.data[0].stock);
+            })
+        }
+        
+
+    })
+
+    $('#sizestock').on('keyup click', function(){
+        console.log($("#sizestock").val())
+        let needToPush = true;
+        if(productData.size.length > 0){
+            let isPush = true;
+            for(let i = 0; i < productData.size.length; i++){
+                if(productData.size[i].size === $("#size").val()){
+                    productData.size[i].val = $("#sizestock").val();
+                    isPush = false;
+                    
+                }
+            }
+            if(isPush){
+                productData.size.push({
+                    size : $("#size").val(),
+                    val  : $("#sizestock").val()
+                })
+            }
+        }
+        else {
+            productData.size.push({
+                size : $("#size").val(),
+                val  : $("#sizestock").val()
+            })
+        }
+    })
+
+    $body = $("body");
+    $("#loadingState").hide();
+    $("#submit").on("click", function(){
+        $("#loadingState").show();
+        console.log(productData);
+        console.log(typeof productData)
+        $.ajax({
+            type: 'POST',
+            url: "/product/edit?type=edit",
+            data: JSON.stringify(productData),
+            success: function(data){
+                swal("Good job!", "Data berhasil diubah", "success");
+            },
+            error: function(e) {
+                swal("Sorry", "Maaf terjadi kesalahan dalam menyimpan data", "error");
+            },
+            dataType: "json",
+            contentType: "application/json"
+        });
+    })
+    
+    // change profile photo
+    $("#logo").css('display','none');
+    
+    $("#selectLogo").click(function(e){
+       e.preventDefault();
+       $("#logo").trigger('click');
+    });
+
+    $("#min").click(function(){
+        console.log("Hello")
+    });
+
+    $('#logo').on('change', function(){
+        var date = new Date();
+        var files = $(this).get(0).files;
+    
+        if (files.length > 0){
+            var formData = new FormData();
+            console.log("picture will updated")
+            // loop through all the selected files
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                // add the files to formData object for the data payload
+                formData.append('image', file, file.name);
+            }
+            console.log(file.name);
+            $.ajax({
+                url: '/product/edit?type=upload&id=<%= data[0].id_barang %>',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data){
+                    console.log('upload successful!');
+                    console.log(data)
+                    if(data === "File is not allowed"){
+                        alert(data);
+                    }
+                    else{
+                        location.reload();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    
+                }
+            });
+        }
+    });
+    let minCount = 0;
+    
+    $(".min").click(function(){
+        var id = $(this).attr('id');
+        console.log(id);
+        $.ajax({
+                url: '/product/edit',
+                type: 'DELETE',
+                data: JSON.stringify({
+                    id : id
+                }),
+                dataType: "json",
+                contentType: "application/json",
+                success: function(data){
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    
+                }
+            });
+    })
+</script>
+</body>
+</html>
